@@ -9,7 +9,7 @@ namespace Checkers
     class HumanPlayer : IPlayer
     {
         public string PieceSymbol { get; set; }
-        public Move GetMove(List<Move> validMoves)
+        public Move GetMove(List<Move> validMoves, Board gameBoard)
         {
             return new Move();
         }
