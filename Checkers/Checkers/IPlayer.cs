@@ -8,5 +8,7 @@ namespace Checkers
 {
     interface IPlayer
     {
+        string PieceSymbol { get; set; }
+        Move GetMove(List<Move> validMoves);
     }
 }
