@@ -10,6 +10,7 @@ namespace Checkers
         public IPlayer WhitePlayer { get; set; }
         public IPlayer BlackPlayer { get; set; }
         private IPlayer CurrentPlayer;
+        List<Move> validMoves;
         public string PieceSymbol
         {
             get
@@ -67,6 +68,74 @@ namespace Checkers
             int colOfJumpedPiece = fromCol + ((fromCol > toCol) ? -1 : 1);
 
             return new Tuple<int, int>(rowOfJumpedPiece, colOfJumpedPiece);
+        }
+        public List<Move> GetValidMovesRemaining()
+        {
+            validMoves = GetValidMoves(CurrentPlayer.PieceSymbol);
+            return validMoves;
+        }
+        private List<Move> GetValidMoves(string pieceType)
+        {
+            var moves = new List<Move>();
+
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    if (GameBoard[i][j] == pieceType)
+                    {
+                        //Normal moves
+                        int rowMovement = (pieceType == "X") ? 1 : -1;
+                        int newRow = i + rowMovement;
+
+                        //Left
+                        int newCol = j - 1;
+                        Move newMove = CreateMoveIfValid(i, j, newRow, newCol, false);
+                        if (newMove != null) moves.Add(newMove);
+
+                        //Right
+                        newCol = j + 1;
+                        newMove = CreateMoveIfValid(i, j, newRow, newCol, false);
+                        if (newMove != null) moves.Add(newMove);
+
+                        //Jumps
+                        rowMovement = (pieceType == "X") ? 2 : -2;
+                        newRow = i + rowMovement;
+
+                        //Left
+                        newCol = j - 2;
+                        newMove = CreateMoveIfValid(i, j, newRow, newCol, true);
+                        if (newMove != null) moves.Add(newMove);
+
+                        //Right
+                        newCol = j + 2;
+                        newMove = CreateMoveIfValid(i, j, newRow, newCol, true);
+                        if (newMove != null) moves.Add(newMove);
+                    }
+                }
+            }
+
+            return moves;
+        }
+        private Move CreateMoveIfValid(int fromRow, int fromCol, int toRow, int toCol, bool isJump)
+        {
+            Move newMove = null;
+
+            if (toCol >= 0 && toCol < 8 && toRow >= 0 && toRow < 8)
+            {
+                if (GameBoard[toRow][toCol] == ".")
+                {
+                    if (isJump)
+                    {
+                        var jumpedSquareLocation = GetJumpedPieceCoordinates(fromRow, fromCol, toRow, toCol);
+                        var jumpedSquareValue = GameBoard[jumpedSquareLocation.Item1][jumpedSquareLocation.Item2];
+                        if (GameBoard[fromRow][fromCol] == jumpedSquareValue || jumpedSquareValue == ".") return null;
+                    }
+                    newMove = new Move() { From = new Tuple<int, int>(fromRow, fromCol), To = new Tuple<int, int>(toRow, toCol), IsJump = isJump };
+                }
+            }
+
+            return newMove;
         }
     }
 }
