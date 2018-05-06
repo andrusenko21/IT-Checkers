@@ -33,5 +33,19 @@ namespace Checkers
 
             return new List<string>() { firstType, secondType, firstType, secondType, firstType, secondType, firstType, secondType };
         }
+        public new string ToString()
+        {
+            StringBuilder output = new StringBuilder();
+            output.AppendLine("  0 1 2 3 4 5 6 7");
+
+            for (int i = 0; i < 8; i++)
+            {
+                output.Append(i.ToString());
+                output.Append(" ");
+                output.AppendLine(this[i].Aggregate((x, y) => (x + " " + y)));
+            }
+
+            return output.ToString();
+        }
     }
 }
