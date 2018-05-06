@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Checkers
 {
-    class Board : List<List<string>>
+    class GameManager
     {
     }
 }
