@@ -14,6 +14,9 @@ namespace Checkers
             var validJump = validMoves.Select(a => a).Where(b => b.IsJump && gameBoard[b.From.Item1][b.From.Item2] == PieceSymbol).FirstOrDefault();
             if (validJump != null) return validJump;
 
+            var move = validMoves.Select(a => a).Where(b => gameBoard[b.From.Item1][b.From.Item2] == PieceSymbol).FirstOrDefault();
+            if (move != null) return move;
+
             return null;
         }
     }
