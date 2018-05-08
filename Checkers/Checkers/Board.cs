@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Checkers
 {
+    /// <summary>
+    /// This class represents the checkers board.
+    /// </summary>
     class Board : List<List<string>>
     {
         public Board()
@@ -17,12 +19,13 @@ namespace Checkers
                 if (i > 4) Add(BuildInitialRow("O", i));
             }
         }
+
         private List<string> BuildInitialRow(string type, int rowNum)
         {
             string firstType = ".", secondType = ".";
             if (rowNum % 2 == 0)
             {
-                firstType = ".";
+                firstType = "."; 
                 secondType = type;
             }
             else
@@ -30,9 +33,10 @@ namespace Checkers
                 firstType = type;
                 secondType = ".";
             }
-
+            
             return new List<string>() { firstType, secondType, firstType, secondType, firstType, secondType, firstType, secondType };
         }
+
         public new string ToString()
         {
             StringBuilder output = new StringBuilder();

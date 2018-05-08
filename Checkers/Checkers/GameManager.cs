@@ -1,30 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Checkers
 {
+    /// <summary>
+    /// The GameManager runs a Game of checkers.
+    /// A game can be between a human player and a computer or between two computer players.
+    /// The game continues as long as there are valid moves left or until one player wins.
+    /// </summary>
     class GameManager
     {
         private Game game;
         public Game Game { get { return game; } }
 
         private string winner;
-        public string Winner { get { return winner; } }
+        public string Winner { get {return winner;} }
 
         private bool isDraw;
-        public bool IsDraw { get { return isDraw; } }
+        public bool IsDraw { get {return isDraw;} }
 
         public GameManager()
         {
             IPlayer human = new HumanPlayer();
             IPlayer computer = new ComputerPlayer();
-
+            
             string color = ((HumanPlayer)human).PromptForColor();
             color = color.ToUpper();
-
+            
             IPlayer whitePlayer = (color == "B") ? computer : human;
             IPlayer blackPlayer = (color == "B") ? human : computer;
 
@@ -68,7 +69,7 @@ namespace Checkers
                 if (whiteRemainingPieces == 0) break;
                 blackRemainingPieces = CheckForWinState("Black");
                 if (blackRemainingPieces == 0) break;
-
+                
                 validMoves = game.GetValidMovesRemaining();
 
             } while (validMoves.Count > 0);
