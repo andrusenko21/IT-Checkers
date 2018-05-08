@@ -7,10 +7,14 @@ namespace Checkers
     class Game
     {
         public Board GameBoard { get; set; }
+
         public IPlayer WhitePlayer { get; set; }
         public IPlayer BlackPlayer { get; set; }
+
         private IPlayer CurrentPlayer;
+
         List<Move> validMoves;
+
         public string PieceSymbol
         {
             get
@@ -18,21 +22,30 @@ namespace Checkers
                 return (CurrentPlayer.Equals(WhitePlayer)) ? "O" : "X";
             }
         }
+
         public Game(IPlayer whitePlayer, IPlayer blackPlayer, Board gameBoard)
         {
             if (whitePlayer == null || blackPlayer == null || gameBoard == null) throw new ArgumentException("Null arguments passed to Game constructor.");
 
             Init(whitePlayer, blackPlayer, gameBoard);
         }
+
         private void Init(IPlayer whitePlayer, IPlayer blackPlayer, Board gameBoard)
         {
             WhitePlayer = whitePlayer;
             BlackPlayer = blackPlayer;
-              
+
             GameBoard = gameBoard;
 
             CurrentPlayer = whitePlayer;
         }
+
+        public Move GetNextMove()
+        {
+            var move = CurrentPlayer.GetMove(validMoves, GameBoard);
+            return move;
+        }
+
         public void DoMove(Move move)
         {
             UpdateBoard(move);
@@ -62,6 +75,7 @@ namespace Checkers
                 GameBoard[jumpedLocation.Item1][jumpedLocation.Item2] = ".";
             }
         }
+
         private Tuple<int, int> GetJumpedPieceCoordinates(int fromRow, int fromCol, int toRow, int toCol)
         {
             int rowOfJumpedPiece = fromRow + ((fromRow > toRow) ? -1 : 1);
@@ -69,11 +83,18 @@ namespace Checkers
 
             return new Tuple<int, int>(rowOfJumpedPiece, colOfJumpedPiece);
         }
+
+        internal void PrintBoard()
+        {
+            Console.WriteLine(GameBoard.ToString());
+        }
+
         public List<Move> GetValidMovesRemaining()
         {
             validMoves = GetValidMoves(CurrentPlayer.PieceSymbol);
             return validMoves;
         }
+
         private List<Move> GetValidMoves(string pieceType)
         {
             var moves = new List<Move>();
@@ -117,6 +138,7 @@ namespace Checkers
 
             return moves;
         }
+
         private Move CreateMoveIfValid(int fromRow, int fromCol, int toRow, int toCol, bool isJump)
         {
             Move newMove = null;
@@ -136,6 +158,17 @@ namespace Checkers
             }
 
             return newMove;
+        }
+
+        internal int GetRemainingPieces(string color)
+        {
+            int remainingPieces = 0;
+
+            string pieceToLookFor = (color.ToLower() == "white") ? "O" : "X";
+
+            remainingPieces = GameBoard.SelectMany(a => a).ToList().Where(b => b == pieceToLookFor).Count();
+
+            return remainingPieces;
         }
     }
 }
