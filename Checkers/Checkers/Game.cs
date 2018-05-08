@@ -4,6 +4,11 @@ using System.Collections.Generic;
 
 namespace Checkers
 {
+    /// <summary>
+    /// The Game class represents a game of checkers.
+    /// A game of checkers consists of a game board, a player that uses the white pieces and a player that uses the black pieces.
+    /// The game keeps track of whose turn it is, makes moves on the board and reports on valid moves.
+    /// </summary>
     class Game
     {
         public Board GameBoard { get; set; }
@@ -15,8 +20,8 @@ namespace Checkers
 
         List<Move> validMoves;
 
-        public string PieceSymbol
-        {
+        public string PieceSymbol 
+        { 
             get
             {
                 return (CurrentPlayer.Equals(WhitePlayer)) ? "O" : "X";
@@ -56,7 +61,7 @@ namespace Checkers
                 Console.WriteLine();
             }
 
-
+            
             CurrentPlayer = (CurrentPlayer.Equals(WhitePlayer)) ? BlackPlayer : WhitePlayer;
         }
 
@@ -108,12 +113,12 @@ namespace Checkers
                         //Normal moves
                         int rowMovement = (pieceType == "X") ? 1 : -1;
                         int newRow = i + rowMovement;
-
+                        
                         //Left
                         int newCol = j - 1;
                         Move newMove = CreateMoveIfValid(i, j, newRow, newCol, false);
                         if (newMove != null) moves.Add(newMove);
-
+                        
                         //Right
                         newCol = j + 1;
                         newMove = CreateMoveIfValid(i, j, newRow, newCol, false);

@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Checkers
 {
+    /// <summary>
+    /// The HumanPlayer is a IPlayer that prompts for moves and validates moves chosen by the user.
+    /// </summary>
     class HumanPlayer : IPlayer
     {
 
@@ -41,8 +42,8 @@ namespace Checkers
 
             var to = new Tuple<int, int>(row, col);
 
-            var move = new Move() { From = from, To = to };
-
+            var move = new Move() {From = from, To = to};
+            
             if (ValidateMove(move, validMoves, gameBoard)) return move;
 
             return GetMove(validMoves, gameBoard);
@@ -69,7 +70,7 @@ namespace Checkers
                 Console.WriteLine();
                 pos = GetLocation(type, direction);
             }
-
+            
             return pos;
         }
 
@@ -97,7 +98,7 @@ namespace Checkers
             if (validMove != null) return true;
 
             string errorMessage = string.Empty;
-
+            
             if (gameBoard[rowTo][colTo] != ".") errorMessage = "Sorry. That space you are moving to is already occupied.";
             if ((PieceSymbol == "X" && rowFrom >= rowTo) || (PieceSymbol == "O" && rowFrom <= rowTo)) errorMessage = "You can only move forward!";
             if (gameBoard[rowFrom][colFrom] != PieceSymbol) errorMessage = "Please pick a valid piece to move.";

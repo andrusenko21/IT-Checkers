@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Collections;
 
 namespace Checkers
 {
-    class Move
+    /// <summary>
+    /// Represents a move with the From and To coordinates. Also reports if the move is a jump.
+    /// </summary>
+    class Move : IEquatable<Move>
     {
         public Tuple<int, int> From { get; set; }
         public Tuple<int, int> To { get; set; }
