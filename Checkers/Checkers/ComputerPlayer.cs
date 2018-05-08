@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Checkers
 {
-    class ComputerPlayer:IPlayer
+    class ComputerPlayer : IPlayer
     {
         public string PieceSymbol { get; set; }
         public Move GetMove(List<Move> validMoves, Board gameBoard)
