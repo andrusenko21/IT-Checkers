@@ -106,6 +106,32 @@ namespace CheckersTests
         }
 
         [TestMethod()]
+        public void DoMoveTestForJumpUpdateDownRightFormBoard()
+        {
+            IPlayer whitePlayer = new ComputerPlayer();
+            IPlayer blackPlayer = new ComputerPlayer();
+            Board gameBoard = TestHelper.CreateEmptyBoard();
+            gameBoard[2][1] = "O";
+            gameBoard[3][2] = "X";
+
+            IFormBoard formBoard = Moq.Mock.Of<IFormBoard>(fb => fb[3][2] == "." && fb[2][1] == "." && fb[4][3] == "O");
+            
+            Game target = new Game(whitePlayer, blackPlayer, gameBoard);
+            Move move = new Move() { From = new Tuple<int, int>(2, 1), To = new Tuple<int, int>(4, 3), IsJump = true };
+
+            target.DoMove(move);
+
+            Assert.IsTrue(target.GameBoard[3][2] == ".");
+            Assert.IsTrue(target.GameBoard[2][1] == ".");
+            Assert.IsTrue(target.GameBoard[4][3] == "O");
+
+            Assert.IsTrue(formBoard[3][2] == ".");
+            Assert.IsTrue(formBoard[2][1] == ".");
+            Assert.IsTrue(formBoard[4][3] == "O");
+
+        }
+
+        [TestMethod()]
         public void DoMoveTestForJumpUpdateDownLeft()
         {
             IPlayer whitePlayer = new ComputerPlayer();
@@ -133,6 +159,7 @@ namespace CheckersTests
             Board gameBoard = TestHelper.CreateEmptyBoard();
             gameBoard[4][3] = "O";
             gameBoard[3][2] = "X";
+            
             Game target = new Game(whitePlayer, blackPlayer, gameBoard);
             Move move = new Move() { From = new Tuple<int, int>(4, 3), To = new Tuple<int, int>(2, 1), IsJump = true };
             
